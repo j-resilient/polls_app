@@ -16,6 +16,7 @@
 
 class Response < ApplicationRecord
     validates :user_id, :answer_choice_id, presence: true
+    validate :not_duplicate_response
     
     belongs_to :answer_choice,
         class_name: 'AnswerChoice',
@@ -40,5 +41,12 @@ class Response < ApplicationRecord
     # by checking to see if user has a response in sibing_responses
     def respondent_already_answered?
         sibling_responses.where('user_id = ?', self.user_id).exists?
+    end
+
+    private
+    def not_duplicate_response
+        if respondent_already_answered?
+            errors[:user] << 'can only answer question once'
+        end
     end
 end
