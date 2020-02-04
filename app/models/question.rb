@@ -14,6 +14,10 @@
 #
 
 class Question < ApplicationRecord
+    validates :poll_id, :text, presence: true
+    validates :poll_id, uniqueness: { scope: :text }
+    validates_associated :answer_choices
+    
     has_many :answer_choices,
         class_name: 'AnswerChoice',
         foreign_key: :question_id,

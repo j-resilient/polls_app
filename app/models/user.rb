@@ -14,6 +14,7 @@
 
 class User < ApplicationRecord
     validates :username, presence: true, uniqueness: true
+    validates_associated :authored_polls, :responses
 
     has_many :authored_polls,
         class_name: :Poll,

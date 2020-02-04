@@ -15,9 +15,9 @@
 #
 
 class Poll < ApplicationRecord
-    validates :author_id, presence: true
-    validates :title, presence: true
+    validates :author_id, :title, presence: true
     validates :title, uniqueness: { scope: :author_id }
+    validates_associated :questions
 
     belongs_to :author,
         class_name: 'User',
