@@ -35,4 +35,10 @@ class Response < ApplicationRecord
     def sibling_responses
         question.responses.where.not(id: self.id)
     end
+
+    # checks to see if user has already answered the question
+    # by checking to see if user has a response in sibing_responses
+    def respondent_already_answered?
+        sibling_responses.where('user_id = ?', self.user_id).exists?
+    end
 end
