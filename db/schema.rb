@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_03_223834) do
+ActiveRecord::Schema.define(version: 2020_02_04_212159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2020_02_03_223834) do
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["author_id", "title"], name: "index_polls_on_author_id_and_title", unique: true
     t.index ["author_id"], name: "index_polls_on_author_id"
   end
 
