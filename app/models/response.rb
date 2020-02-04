@@ -26,4 +26,6 @@ class Response < ApplicationRecord
         class_name: 'User',
         foreign_key: :user_id,
         primary_key: :id
+
+    has_one :question, through: :answer_choice, source: :question
 end
