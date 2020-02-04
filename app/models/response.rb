@@ -28,4 +28,11 @@ class Response < ApplicationRecord
         primary_key: :id
 
     has_one :question, through: :answer_choice, source: :question
+
+    # returns all sibling responses by calling #question on self
+    # and then Question#responses on the result
+    # and then filtering self out (because I am not my own sibling)
+    def sibling_responses
+        question.responses.where.not(id: self.id)
+    end
 end
