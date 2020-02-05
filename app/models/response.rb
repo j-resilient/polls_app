@@ -17,6 +17,7 @@
 class Response < ApplicationRecord
     validates :user_id, :answer_choice_id, presence: true
     validate :not_duplicate_response
+    validate :not_author_response
     
     belongs_to :answer_choice,
         class_name: 'AnswerChoice',
@@ -43,10 +44,22 @@ class Response < ApplicationRecord
         sibling_responses.where('user_id = ?', self.user_id).exists?
     end
 
+    def author_respondent?
+        answer_choice.question.poll.author_id == self.user_id
+    end
+
     private
     def not_duplicate_response
         if respondent_already_answered?
             errors[:user] << 'can only answer question once'
+        end
+    end
+
+    # a validation that checks that the author isn't trying to answer their own poll
+    # and rig the results
+    def not_author_response
+        if author_respondent?
+            errors[:author] << 'cannot answer their own poll'
         end
     end
 end
